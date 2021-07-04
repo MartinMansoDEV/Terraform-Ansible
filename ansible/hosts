@@ -1,0 +1,15 @@
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_user=uniruser
+ANSIBLE_HOST_KEY_CHECKING=False
+
+[master]
+20.93.162.240
+
+[workers]
+20.93.163.197
+20.93.162.92
+
+[nfs]
+20.93.162.240
