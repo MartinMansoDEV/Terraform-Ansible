@@ -3,3 +3,4 @@ credentials.tf.secret
 credentials.tf.clear
 .terraform*
 id_rsa*
+public_ip_address.txt
