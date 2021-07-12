@@ -1,0 +1,53 @@
+---
+- host: all 
+  become: yes
+  vars_files:
+  - env_variables
+  tasks:
+
+  - name: Desactivar memoria SWAP
+    shell: swapoff -a
+  
+  - name: Desactivar memoria Swap en el arranque del sistema
+    replace:
+      path: /etc/fstab
+      regexp: '(^/.*swap*)'
+      replace: '# \1'
+
+  - name: Crear el repositorio para kubernetes
+    file:
+    path: /etc/yum.repos.d/kubernetes.repo
+    state: touch
+
+  - name:  Configurando la informacion del repositorio de kubernetes
+    blockinfile: 
+      path: /etc/yum.repos.d/kubernetes.repo
+      block: |
+        [kubernetes]
+        name=Kubernetes
+        baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+        enabled=1
+        gpgcheck=1
+        repo_gpgcheck=1
+        gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+        exclude=kubelet kubeadm kubectl
+
+  - name: Instalar y ejecutar Firewall
+    shell: |
+      yum install firewalld -y
+      systemctl enable firewalld
+      systemctl start firewalld
+
+  - name: Instalar y ejecutar Docker
+    shell: |
+      dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+      dnf install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+      dnf install docker-ce --nobest -y
+      systemctl enable docker
+      systemctl start docker
+
+  - name: Instalar y ejecuta Kubernetes
+    shell: |
+      dnf install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+      systemctl start kubelet
+      systemctl enable kubelet
