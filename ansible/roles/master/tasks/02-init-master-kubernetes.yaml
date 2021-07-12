@@ -1,0 +1,36 @@
+---
+
+- name: Pulling images required for setting up a Kubernetes cluster
+  shell: kubeadm config images pull
+  become: yes
+
+- name: Allow access to the host’s localhost from the docker container.
+  firewalld: 
+    zone: public
+    rich_rule: 'rule family="ipv4" source address="172.17.0.0/16" accept'
+    state: enabled
+    permanent: yes
+    immediate: yes
+  become: yes
+
+- name: Initializing Kubernetes cluster
+  shell: kubeadm init  --pod-network-cidr 10.244.0.0/16 >> cluster_initialized.txt
+  args:
+    chdir: $HOME
+    creates: cluster_initialized.txt
+  become: yes
+
+- name: Copying required files
+  shell: |
+    mkdir -p $HOME/.kube
+    cp -f /etc/kubernetes/admin.conf $HOME/.kube/config
+    chown $(id -u):$(id -g) $HOME/.kube/config
+  become: yes
+
+- name: Install Network Add-on
+  command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+  become: yes
+
+- name: Install Network Add-on 2
+  command: kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
+  become: yes
