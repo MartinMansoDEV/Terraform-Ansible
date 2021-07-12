@@ -12,8 +12,20 @@
     systemctl start firewalld
   become: true
 
-- name : Firewall Masquweading
+- name : Firewall masquerading
   shell: |
     firewall-cmd --add-masquerade --permanent
     firewall-cmd --reload
+  become: true
+
+- name:  Configurando Iptables Kubernetes
+  copy:
+    dest: /etc/sysctl.d/k8s.conf
+    content: |
+      net.bridge.bridge-nf-call-ip6tables = 1
+      net.bridge.bridge-nf-call-iptables = 1
+  become: true
+
+- name : Aplicando reglas kubernetes
+  shell: sysctl --system
   become: true

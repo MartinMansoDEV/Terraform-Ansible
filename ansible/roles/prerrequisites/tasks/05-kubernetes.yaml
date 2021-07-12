@@ -22,15 +22,12 @@
 
 - name: Instalar Kubernetes
   shell: dnf install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
-
-
-- name: Activar servicio
-  systemd:
-    name: kubelet
-    state: started
-    enabled: yes
-    masked: no
   become: yes
 
+- name: Configurando kubernetes
+  shell: |
+    systemctl enable kubelet
+    systemctl start kubelet
+  become: yes
 
 

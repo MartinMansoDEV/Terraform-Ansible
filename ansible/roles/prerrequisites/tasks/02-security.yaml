@@ -9,7 +9,3 @@
 - name: Activar Masquerading
   shell: modprobe br_netfilter
   become: true
-
-- name: Actualizar sistemas
-  shell: dnf upgrade -y
-  become: true

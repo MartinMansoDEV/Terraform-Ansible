@@ -1,24 +1,14 @@
 ---
-- name: Instalar y ejecutar Docker
-  shell: dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
-  become: true
 
-- name: Instalar paquetes Docker
-  dnf:
-    name: https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
-    state: present
-  become: true
+- name: Installing Docker
+  shell: |
+    yum install yum-utils -y
+    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    yum install docker-ce -y --nobest
+  become: yes
 
-- name: Instalar Docker
-  dnf: 
-    name: docker-ce
-    state: present
-  become: true
-
-- name: Activar servicio
-  systemd:
-    name: docker
-    state: started
-    enabled: yes
-    masked: no
+- name: Configurrando docker
+  shell: |
+    systemctl enable docker
+    systemctl start docker
   become: yes
