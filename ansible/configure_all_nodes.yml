@@ -1,9 +1,0 @@
----
-
-- name: Configurando todos los nodos
-  hosts: all
-  vars_files:
-    - "./env_vars.yaml"
-  gather_facts: false
-  roles:
-    - prerrequisites
