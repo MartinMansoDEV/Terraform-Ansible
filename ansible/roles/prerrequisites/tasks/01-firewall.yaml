@@ -1,0 +1,19 @@
+---
+
+- name: Instalar Firewall
+  dnf:
+    name: firewalld
+    state: latest
+  become: true
+
+- name: Activar servicio
+  shell: |
+    systemctl enable firewalld
+    systemctl start firewalld
+  become: true
+
+- name : Firewall Masquweading
+  shell: |
+    firewall-cmd --add-masquerade --permanent
+    firewall-cmd --reload
+  become: true

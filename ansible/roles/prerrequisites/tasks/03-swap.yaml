@@ -1,0 +1,10 @@
+---
+
+- name: Desactivar memoria SWAP
+  shell: swapoff -a
+
+- name: Desactivar memoria Swap en el arranque del sistema
+  replace:
+    path: /etc/fstab
+    regexp: '(^/.*swap*)'
+    replace: '# \1'

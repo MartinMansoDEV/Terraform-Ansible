@@ -2,13 +2,14 @@
 ansible_python_interpreter=/usr/bin/python3
 ansible_user=uniruser
 ANSIBLE_HOST_KEY_CHECKING=False
+ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
 
 [master]
-20.93.162.240
+52.174.28.35
 
 [workers]
-20.93.163.197
-20.93.162.92
+52.174.28.75 
+52.174.28.11 
 
 [nfs]
-20.93.162.240
+52.174.28.35

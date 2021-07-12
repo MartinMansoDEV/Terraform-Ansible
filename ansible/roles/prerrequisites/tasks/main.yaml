@@ -1,0 +1,7 @@
+---
+
+- include_tasks: 01-firewall.yaml
+- include_tasks: 02-security.yaml
+- include_tasks: 03-swap.yaml
+- include_tasks: 04-docker.yaml
+- include_tasks: 05-kubernetes.yaml
