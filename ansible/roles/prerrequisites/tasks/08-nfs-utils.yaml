@@ -1,7 +1,4 @@
 ---
 
 - name: Instalando software nfs client
-  dnf:
-    name: "{{ item }}"
-    state: latest
-  with_items: "{{ nfs_apps }}"
+  shell: dnf install nfs-utils nfs4-acl-tools wget -y
