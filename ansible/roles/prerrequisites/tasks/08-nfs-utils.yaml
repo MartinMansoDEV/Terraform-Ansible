@@ -1,0 +1,7 @@
+---
+
+- name: Instalando software nfs client
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ nfs_apps }}"
