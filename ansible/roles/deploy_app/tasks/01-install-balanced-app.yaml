@@ -23,3 +23,6 @@
     path: ./deployment/influxdb-app.yaml
     regexp: '<nfspathhere>'
     replace: "{{ nfs_path_app }}"
+
+- name: Desplegar firchero yaml de la app
+  shell: kubectl apply -f ./deployment/influxdb-app.yaml
