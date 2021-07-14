@@ -1,0 +1,6 @@
+---
+
+- name: Establecer zona horaria
+  timezone:
+    name: Europe/Madrid
+  become: yes

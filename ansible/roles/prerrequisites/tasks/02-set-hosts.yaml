@@ -1,0 +1,10 @@
+---
+
+- name: Add IPs to /etc/hosts on master and workers
+  lineinfile:
+    dest: /etc/hosts
+    regexp: '.*{{ item }}$'
+    line: "{{ hostvars[item].private_ip }} {{item}}"
+    state: present
+  when: hostvars[item].private_ip is defined
+  with_items: "{{ groups.all }}"

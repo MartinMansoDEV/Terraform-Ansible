@@ -1,14 +1,12 @@
 ---
 
-- name: Installing Docker
+- name: Installing Docker and firewalld
   shell: |
     yum install yum-utils -y
     yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
     yum install docker-ce -y --nobest
-  become: yes
 
-- name: Configurrando docker
+- name: Configurando docker
   shell: |
     systemctl enable docker
     systemctl start docker
-  become: yes

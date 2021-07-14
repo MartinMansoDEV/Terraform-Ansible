@@ -1,8 +1,9 @@
 ---
 
-- include_tasks: 01-firewall.yaml
-- include_tasks: 02-security.yaml
-- include_tasks: 03-swap.yaml
-- include_tasks: 04-docker.yaml
-- include_tasks: 05-kubernetes.yaml
-- include_tasks: chrony-time.yaml
+- include_tasks: 01-swap.yaml
+- include_tasks: 02-set-hosts.yaml
+- include_tasks: 03-kubernetes.yaml
+- include_tasks: 04-firewall.yaml
+- include_tasks: 05-docker.yaml
+- include_tasks: 06-security.yaml
+- include_tasks: 07-set-time.yaml

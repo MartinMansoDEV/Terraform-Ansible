@@ -1,10 +1,9 @@
 ---
 
-- name: Crear el repositorio para kubernetes
+- name: Creating a repository file for Kubernetes
   file:
     path: /etc/yum.repos.d/kubernetes.repo
     state: touch
-  become: true
 
 - name:  Configurando la informacion del repositorio de kubernetes
   blockinfile: 
@@ -29,5 +28,4 @@
     systemctl enable kubelet
     systemctl start kubelet
   become: yes
-
 
