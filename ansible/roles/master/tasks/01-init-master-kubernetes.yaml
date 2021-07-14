@@ -1,21 +1,20 @@
 ---
 
-- name: Pulling images required for setting up a Kubernetes cluster
+- name: Descargando las imagenes necesarias para kubernetes
   shell: kubeadm config images pull
 
-- name: Resetting kubeadm
-  shell: kubeadm reset -f
+# - name: Resetting kubeadm
+#   shell: kubeadm reset -f
+
+- name: Inicializar el cluster de kubernetes
+  shell: kubeadm init --pod-network-cidr={{cluster_cidr}}
   register: output
 
-- name: Initializing Kubernetes cluster
-  shell: kubeadm init --pod-network-cidr={{cidr_v}}
-  register: output
-
-- name: Storing Logs and Generated token for future purpose.
-  local_action: copy content={{ output.stdout }} dest={{ token_file }}
+- name: Gurardando los logs con el comando join.
+  local_action: copy content={{ output.stdout }} dest={{ join_token_file }}
   become: False
 
-- name: Copying required files
+- name: Copiando los archivos necesarios de kubernetes
   shell: |
     mkdir -p $HOME/.kube
     sudo cp -f /etc/kubernetes/admin.conf $HOME/.kube/config
