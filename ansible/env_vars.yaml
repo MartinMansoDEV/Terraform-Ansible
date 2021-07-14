@@ -6,6 +6,11 @@ services:
 - docker
 - firewalld
 
+nfs_apps:
+- nfs-utils
+- net-tools
+- nfs4-acl-tools
+
 master_ports:
 - "6443/tcp"
 - "2379-2380/tcp"
