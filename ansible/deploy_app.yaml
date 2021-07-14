@@ -1,0 +1,9 @@
+---
+
+- name: Desplegando app
+  hosts: master
+  vars_files:
+    - "./env_vars.yaml"
+  become: yes
+  roles:
+    - deploy_app
