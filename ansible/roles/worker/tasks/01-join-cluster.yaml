@@ -1,9 +1,9 @@
 ---
-- name: Copying token to worker nodes
-  copy: src={{ token_file }} dest=join_token
+- name: Copiar token para nodos worker
+  copy: src={{ join_token_file }} dest=kube_token
 
-- name: Joining worker nodes with kubernetes master
+- name: Unir nodo al cluster
   shell: |
     kubeadm reset -f
-    cat join_token | tail -2 > out.sh
-    sh out.sh
+    cat kube_token | tail -2 > initoken.sh
+    sh initoken.sh
