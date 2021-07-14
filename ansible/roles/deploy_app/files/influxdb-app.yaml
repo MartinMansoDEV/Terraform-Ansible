@@ -1,0 +1,132 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: influxdb-balanced
+  labels:
+    name: influxdb-balanced
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-pv
+  namespace: influxdb-balanced
+spec:
+  capacity:
+    storage: 9Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Recycle
+  storageClassName: nfs
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  nfs:
+    path: <nfspathhere>
+    server: <nfsiphere>
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-pvc
+  namespace: influxdb-balanced
+spec:
+  storageClassName: nfs
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: influxdb-balanced
+  namespace: influxdb-balanced
+  labels:
+    app: influxdb-balanced
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: influxdb-balanced
+  template:
+    metadata:
+      labels:
+        app: influxdb-balanced
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - influxdb-balanced
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: influxdb-balanced
+        image: influxdb
+        ports:
+        - containerPort: 8086
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8086
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          successThreshold: 1
+        volumeMounts:
+        - name: site-pvc
+          mountPath: /var/lib/influxdb
+      volumes:
+      - name: site-pvc
+        persistentVolumeClaim:
+          claimName: nfs-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: balanced-service
+    namespace: influxdb-balanced
+spec:
+    selector:
+      app: influxdb-balanced
+    ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8086
+    type: LoadBalancer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: balanced-ingress
+  namespace: influxdb-balanced
+  labels:
+    app: influxdb-balanced
+  annotations:
+      haproxy.org/path-rewrite: "/"
+spec:
+  rules:
+  - host: foo-balanced.bar
+    http:
+      paths:
+      - path: /
+        pathType: "Prefix"
+        backend:
+          service:
+            name: balanced-service
+            port:
+              number: 80
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: haproxy-configmap
+  namespace: influxdb-balanced
+data:
+  servers-increment: "42"
+  ssl-redirect: "OFF"

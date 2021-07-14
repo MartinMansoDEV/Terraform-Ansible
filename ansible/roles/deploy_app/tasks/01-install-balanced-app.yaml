@@ -1,0 +1,25 @@
+---
+
+- name: Crear directorio para desplegar la apicacion
+  file:
+    path: ./deployment
+    state: directory
+    mode: 0755
+
+- name: Copiar todos los archivos para desplegar
+  copy:
+    src: influxdb-app.yaml
+    dest: "./deployment/"    
+    mode: 0755
+
+- name: Configurar ip del nodo nfs
+  replace:
+    path: ./deployment/influxdb-app.yaml
+    regexp: '<nfsiphere>'
+    replace: "{{ hostvars[groups['nfs'][0]].private_ip }}"
+
+- name: Configurar path del nodo nfs
+  replace:
+    path: ./deployment/influxdb-app.yaml
+    regexp: '<nfspathhere>'
+    replace: "{{ nfs_path_app }}"
