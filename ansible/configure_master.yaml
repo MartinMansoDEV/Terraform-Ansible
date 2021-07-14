@@ -1,9 +1,9 @@
 ---
 
-- name: Configurando nodos worker
+- name: Configurando el nodo master
   hosts: master
   vars_files:
     - "./env_vars.yaml"
-  gather_facts: false
+  become: yes
   roles:
     - master
