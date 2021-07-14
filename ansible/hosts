@@ -1,15 +1,14 @@
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
-ansible_user=uniruser
-ANSIBLE_HOST_KEY_CHECKING=False
 ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+ansible_user=uniruser
 
 [master]
-52.174.28.35
+20.101.111.7 private_ip=10.0.1.10
 
 [workers]
-52.174.28.75 
-52.174.28.11 
+20.105.136.33 private_ip=10.0.1.11
+20.105.138.81 private_ip=10.0.1.12
 
 [nfs]
-52.174.28.35
+20.101.111.7 private_ip=10.0.1.10
