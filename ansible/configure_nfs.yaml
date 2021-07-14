@@ -1,0 +1,9 @@
+---
+
+- name: Configurando el nodo NFS
+  hosts: nfs
+  vars_files:
+    - "./env_vars.yaml"
+  become: yes
+  roles:
+    - nfs

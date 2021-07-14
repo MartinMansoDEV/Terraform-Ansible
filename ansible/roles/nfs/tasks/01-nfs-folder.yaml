@@ -1,0 +1,6 @@
+---
+
+- name: Crear directorio nfs
+  file:
+    path: /srv/nfs
+    state: directory

@@ -1,0 +1,15 @@
+---
+
+- name: Añadir los servidores para que accedan por nfs
+  lineinfile:
+    dest: /etc/exports
+    regexp: '.*{{ item }}$'
+    line: "/srv/nfs   {{ hostvars[item].private_ip }}(rw,sync)"
+    state: present
+  when: hostvars[item].private_ip is defined
+  with_items: "{{ groups.all }}"
+
+- name: Aplicar los cambios del archivo /etc/exports
+  shell: |
+    exportfs -r
+    exportfs -s

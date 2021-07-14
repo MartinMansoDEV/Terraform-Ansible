@@ -1,0 +1,8 @@
+---
+
+- name: Reglas del firewall para nfs
+  shell: |
+    firewall-cmd --permanent --add-service=nfs
+    firewall-cmd --permanent --add-service=rpc-bind
+    firewall-cmd --permanent --add-service=mountd
+    firewall-cmd --reload

@@ -1,0 +1,6 @@
+---
+
+- include_tasks: 01-nfs-folder.yaml
+- include_tasks: 02-install-nfs-server.yaml
+- include_tasks: 03-add-nodes-ips.yaml
+- include_tasks: 04-nfs-firewall.yaml

@@ -1,0 +1,8 @@
+---
+
+- name: Instalando software para nfs
+  shell: dnf install nfs-utils net-tools -y
+- name: Activar servidor nfs
+  shell: |
+    systemctl  enable nfs-server
+    systemctl  start nfs-server
