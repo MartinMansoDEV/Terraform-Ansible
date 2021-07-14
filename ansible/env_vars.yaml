@@ -1,19 +1,20 @@
----
+cluster_cidr: 10.244.0.0/16
+
+join_token_file: kube_token
 
 services:
-- firewalld
 - docker
-- kubelet
-
-worker_ports:
-- "10250/tcp"
-- "30000-32767/tcp"
-- "8472/udp"
-- "8285/udp"
+- firewalld
 
 master_ports:
 - "6443/tcp"
 - "2379-2380/tcp"
 - "10250-10252/tcp"
+- "8285/udp"
+- "8472/udp"
+
+worker_ports:
+- "10250/tcp"
+- "30000-32767/tcp"
 - "8285/udp"
 - "8472/udp"
