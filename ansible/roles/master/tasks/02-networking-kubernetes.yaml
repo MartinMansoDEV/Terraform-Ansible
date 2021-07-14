@@ -1,0 +1,9 @@
+---
+- name: Install Network Add-on
+  command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+- name: Install Network Add-on 2
+  command: kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
+
+- name: Install haproxy
+  command: kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/v1.5/deploy/haproxy-ingress.yam
