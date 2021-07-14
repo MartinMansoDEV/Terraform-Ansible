@@ -1,3 +1,3 @@
 ---
 
-- include_tasks: 01-open-ports.yaml
+- include_tasks: 01-join-cluster.yaml
