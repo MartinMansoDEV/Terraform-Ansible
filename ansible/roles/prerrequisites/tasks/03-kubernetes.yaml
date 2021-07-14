@@ -1,11 +1,11 @@
 ---
 
-- name: Creating a repository file for Kubernetes
+- name: Creando el repo de kubernetes
   file:
     path: /etc/yum.repos.d/kubernetes.repo
     state: touch
 
-- name:  Configurando la informacion del repositorio de kubernetes
+- name: Introduciendo la configuracion de kubernetes
   blockinfile: 
     path: /etc/yum.repos.d/kubernetes.repo
     block: |
@@ -23,7 +23,7 @@
   shell: dnf install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
   become: yes
 
-- name: Configurando kubernetes
+- name: Habilitando kubernetes
   shell: |
     systemctl enable kubelet
     systemctl start kubelet

@@ -3,19 +3,19 @@
 - name: Instalar Firewall
   shell:  dnf install firewalld -y
 
-- name: Activar servicio
+- name: Activar servicio firewalld
   shell: |
     systemctl enable firewalld
     systemctl start firewalld
 
-- name: Allow masquerading in Firewalld
+- name: Activando masquerading en el firewall
   firewalld:
     masquerade: "yes"
     state: enabled
     permanent: yes
     immediate: yes
 
-- name: Allow Network Ports in Firewalld
+- name: Abriendo puertos en los nodos
   firewalld:
     port: "{{ item }}"
     state: enabled

@@ -4,15 +4,6 @@
   shell: |
     setenforce 0
     sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
-  become: true
-
-# - name: Establecer al usuario con permisos de sudo
-#   copy:
-#     content: 'uniruser ALL=(ALL:ALL) NOPASSWD:ALL'
-#     dest: /etc/sudoers.d/uniruser_nopasswd
-#     mode: 0440
-#   become: true
 
 - name: Activar Masquerading
   shell: modprobe br_netfilter
-  become: true

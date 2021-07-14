@@ -1,6 +1,6 @@
 ---
 
-- name: Add IPs to /etc/hosts on master and workers
+- name: Añadir al archivo /etc/hosts todas las ips para que haya resolución
   lineinfile:
     dest: /etc/hosts
     regexp: '.*{{ item }}$'

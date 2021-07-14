@@ -1,9 +1,9 @@
 ---
 
-- name: Disabling Swap on all nodes
+- name: Desactivar la memoria swap
   shell: swapoff -a
 
-- name: Commenting Swap entries in /etc/fstab
+- name: Deshabilitar el arranque de la swap en el inicio del sistema
   replace:
     path: /etc/fstab
     regexp: '(^/.*swap*)'
