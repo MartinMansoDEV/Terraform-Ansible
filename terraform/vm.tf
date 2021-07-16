@@ -5,7 +5,7 @@ resource "azurerm_linux_virtual_machine" "myVMS"{
 
     count               = length(var.vms)
     name                = var.vms[count.index].name
-    computer_name       = "${var.vms[count.index].name}.westeurope.cloudapp.azure.com"  # Establezco el hostname para la maquina, utilizado en ansible
+    computer_name       = "${var.vms[count.index].name}-manand.westeurope.cloudapp.azure.com"  # Establezco el hostname para la maquina, utilizado en ansible
     resource_group_name = azurerm_resource_group.rg.name
     location            = azurerm_resource_group.rg.location
     size                = var.vms[count.index].size # Establezco el tamaño de las maquinas
@@ -42,12 +42,6 @@ resource "azurerm_linux_virtual_machine" "myVMS"{
 
     tags = {
         environment = "CP2"
-    }
-
-    # Exporta a un fichero las ips generadas en el deploy, para que no haga falta ir al
-    # proveedor para obtenerlas y modificar el archivo hosts de ansible.
-    provisioner "local-exec" {
-        command = "echo ${self.name} - ${self.public_ip_address} >> public_ip_address.txt"
     }
 
 }
