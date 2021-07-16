@@ -108,7 +108,7 @@ metadata:
   labels:
     app: influxdb-balanced
   annotations:
-    haproxy.org/path-rewrite: /$1 # Importante que sea path-rewrite o si no, no se va a ver la pagina
+    haproxy.org/rewrite-target: /$1 # Importante que sea rewrite-target o si no, no se va a ver la pagina
 spec:
   rules:
   - host: <dnshere>
