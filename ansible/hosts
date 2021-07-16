@@ -4,11 +4,11 @@ ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
 ansible_user=uniruser
 
 [master]
-20.101.111.7 private_ip=10.0.1.10
+kubemaster.westeurope.cloudapp.azure.com private_ip=10.0.1.10
 
 [workers]
-20.105.136.33 private_ip=10.0.1.11
-20.105.138.81 private_ip=10.0.1.12
+kubenode1.westeurope.cloudapp.azure.com private_ip=10.0.1.11
+kubenode2.westeurope.cloudapp.azure.com private_ip=10.0.1.12
 
 [nfs]
-20.101.111.7 private_ip=10.0.1.10
+kubemaster.westeurope.cloudapp.azure.com private_ip=10.0.1.10

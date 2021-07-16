@@ -5,7 +5,7 @@ resource "azurerm_linux_virtual_machine" "myVMS"{
 
     count               = length(var.vms)
     name                = var.vms[count.index].name
-    computer_name       = "${var.vms[count.index].name}.manand.lab"  # Establezco el hostname para la maquina, utilizado en ansible
+    computer_name       = "${var.vms[count.index].name}.westeurope.cloudapp.azure.com"  # Establezco el hostname para la maquina, utilizado en ansible
     resource_group_name = azurerm_resource_group.rg.name
     location            = azurerm_resource_group.rg.location
     size                = var.vms[count.index].size # Establezco el tamaño de las maquinas

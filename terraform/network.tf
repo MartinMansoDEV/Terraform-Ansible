@@ -57,10 +57,26 @@ resource "azurerm_public_ip" "myPublicIp" {
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Dynamic"
+  domain_name_label   = var.vms[count.index].name 
   sku                 = "Basic"
 
   tags = {
       environment = "CP2"
   }
 
+}
+
+resource "azurerm_dns_zone" "example" {
+  count               = length(var.vms)
+  name                = "${var.vms[count.index].name}.manand.lab"
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
+resource "azurerm_dns_a_record" "example" {
+  count               = length(var.vms) 
+  name                = "record-${var.vms[count.index].name}"
+  zone_name           = element(azurerm_dns_zone.example.*.name, count.index)
+  resource_group_name = azurerm_resource_group.rg.name
+  ttl                 = 300
+  target_resource_id  =  element(azurerm_public_ip.myPublicIp.*.id, count.index)
 }
