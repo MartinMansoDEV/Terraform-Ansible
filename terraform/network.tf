@@ -66,13 +66,19 @@ resource "azurerm_public_ip" "myPublicIp" {
 
 }
 
-resource "azurerm_dns_zone" "example" {
+# Crea la zona para la DNS
+# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_a_record
+
+resource "azurerm_dns_zone" "myAzyreZone" {
   count               = length(var.vms)
   name                = "${var.vms[count.index].name}.manand.lab"
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-resource "azurerm_dns_a_record" "example" {
+# Crea el registro A para la DNS
+# https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/dns_a_record
+
+resource "azurerm_dns_a_record" "myAzureDNS" {
   count               = length(var.vms) 
   name                = "record-${var.vms[count.index].name}"
   zone_name           = element(azurerm_dns_zone.example.*.name, count.index)

@@ -18,6 +18,7 @@ resource "azurerm_network_security_group" "mySecGroup" {
         destination_address_prefix = "*"
     }
 
+    # Reglas para acceder a la app de desde fuera de Azure
     security_rule {
         name                       = "Kubernetes"
         priority                   = 1002
