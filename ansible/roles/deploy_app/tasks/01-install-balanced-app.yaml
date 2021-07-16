@@ -24,5 +24,11 @@
     regexp: '<nfspathhere>'
     replace: "{{ nfs_path_app }}"
 
+- name: Configurarar el DNS del ingress controller
+  replace:
+    path: ./deployment/influxdb-app.yaml
+    regexp: '<dnshere>'
+    replace: "{{ hostvars[groups['nfs'][0]].ansible_host }}"
+
 - name: Desplegar firchero yaml de la app
   shell: kubectl apply -f ./deployment/influxdb-app.yaml

@@ -108,10 +108,10 @@ metadata:
   labels:
     app: influxdb-balanced
   annotations:
-      haproxy.org/path-rewrite: "/"
+    haproxy.org/path-rewrite: /$1 # Importante que sea path-rewrite o si no, no se va a ver la pagina
 spec:
   rules:
-  - host: foo-balanced.bar
+  - host: <dnshere>
     http:
       paths:
       - path: /
@@ -121,12 +121,3 @@ spec:
             name: balanced-service
             port:
               number: 80
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: haproxy-configmap
-  namespace: influxdb-balanced
-data:
-  servers-increment: "42"
-  ssl-redirect: "OFF"
