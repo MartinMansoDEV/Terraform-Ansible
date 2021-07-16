@@ -32,3 +32,12 @@
 
 - name: Desplegar firchero yaml de la app
   shell: kubectl apply -f ./deployment/influxdb-app.yaml
+
+- name: Obtener el puerto de Haproxy
+  command: kubectl get svc -n haproxy-controller haproxy-ingress 
+  register: haproxy_port
+
+- name: URL Generada para acceder al ls spp balanceada
+  debug:
+    msg:
+      - "http://{{ hostvars[groups['nfs'][0]].ansible_host }}:{{ haproxy_port.stdout | regex_search('(?<=80:).*(?=/TCP,443)') }}"
