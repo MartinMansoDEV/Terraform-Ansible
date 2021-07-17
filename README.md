@@ -36,7 +36,7 @@ Sistema operativo **CentOS 8**
 
 https://learn.hashicorp.com/tutorials/terraform/install-cli
 
-
+Verificar la instalación: `terraform -help` 
 
 
 1.2 - Desplegar infraestructura
@@ -122,7 +122,7 @@ Una vez montada la infraestructura, procederemos a instalar [Kubernetes](https:/
 
 https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
 
-Verificar la instalación: `ansible -h  `
+Verificar la instalación: `ansible -h`
 
 
 2.2 - Desplegar Kubernetes e InfluxDB
