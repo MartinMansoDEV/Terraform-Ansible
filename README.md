@@ -31,7 +31,15 @@ Sistema operativo **CentOS 8**
 ├── Servidor NFS                         # 3.5GB RAM, 1 CPU
 ```
 
-1.1 - Desplegar infraestructura
+1.1 - Instalación Terraform
+----------------------------
+
+https://learn.hashicorp.com/tutorials/terraform/install-cli
+
+
+
+
+1.2 - Desplegar infraestructura
 ----------------------------
 
 Lo primero que dememos hacer es crear crear el archivo credentials.tf en el directorio `./terraform`
@@ -109,8 +117,15 @@ Estas direcciones DNS serán utilizadas para conectarse con **Ansible**
 
 Una vez montada la infraestructura, procederemos a instalar [Kubernetes](https://kubernetes.io) y la app de [InfluxDB](https://www.influxdata.com/) en nuestro cluster, para ello haremos uso del software de Ansible.
 
+2.1 - Instalación Ansible
+----------------------------
 
-2.1 - Desplegar Kubernetes e InfluxDB
+https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html
+
+Verificar la instalación: `ansible -h  `
+
+
+2.2 - Desplegar Kubernetes e InfluxDB
 ----------------------------
 
 
