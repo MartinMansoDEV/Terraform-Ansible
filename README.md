@@ -11,7 +11,7 @@ ________________________________________________________________________________
 
 ```
 
-A continuación detallaré como desplegar la infraestructura en Azure con Terraform y la instalación de Kubernetes e InfluxDB con Ansible.
+A continuación detallaré como desplegar la infraestructura en Azure con Terraform y la instalación de Kubernetes e InfluxDB con Ansible, utilizando un servidor NFS común, ya que la aplicación será una aplicación balanceada.
 
 
 1- TERRAFORM
@@ -102,3 +102,81 @@ En azure nos ha generado 4 servidores con las siguientes DNS:
 - kubenode2-manand.westeurope.cloudapp.azure.com
 
 Estas direcciones DNS serán utilizadas para conectarse con **Ansible**
+
+
+2- ANSIBLE
+===============
+
+Una vez montada la infraestructura, procederemos a instalar [Kubernetes](https://kubernetes.io) y la app de [InfluxDB](https://www.influxdata.com/) en nuestro cluster, para ello haremos uso del software de Ansible.
+
+
+2.1 - Desplegar Kubernetes e InfluxDB
+----------------------------
+
+
+El primer paso es comprobar que todos los hosts que tenemos declarado en el archivo `./ansible/hosts` estén creados en la nube de Azure.
+
+La estructura es la siguiente:
+
+```
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_ssh_extra_args='-o StrictHostKeyChecking=no'
+ansible_user=uniruser
+
+[master]
+kubemaster-manand.westeurope.cloudapp.azure.com private_ip=10.0.1.10  ansible_host=kubemaster-manand.westeurope.cloudapp.azure.com
+
+[workers]
+kubenode1-manand.westeurope.cloudapp.azure.com private_ip=10.0.1.11 ansible_host=kubenode1-manand.westeurope.cloudapp.azure.com
+kubenode2-manand.westeurope.cloudapp.azure.com private_ip=10.0.1.12 ansible_host=kubenode2-manand.westeurope.cloudapp.azure.com
+
+[nfs]
+kubenfs-manand.westeurope.cloudapp.azure.com private_ip=10.0.1.13 ansible_host=kubenfs-manand.westeurope.cloudapp.azure.com
+
+```
+
+Para comprobar que tenemos acceso a todos los nodos podemos ejecutar el siguiente comando desde el directorio `./ansible`:
+
+`ansible -i hosts -m ping all`
+
+Debemos tener una respuesta como esta:
+
+```
+kubenode1-manand.westeurope.cloudapp.azure.com | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+kubemaster-manand.westeurope.cloudapp.azure.com | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+kubenode2-manand.westeurope.cloudapp.azure.com | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+kubenfs-manand.westeurope.cloudapp.azure.com | SUCCESS => {
+    "changed": false, 
+    "ping": "pong"
+}
+```
+
+Una vez comprobado el estado de los servidores, es momento de desplegar Kubernetes y la aplicación.
+
+Bastará con ejecutar el archivo deploy.sh dentro del directorio ansible.
+
+`sh ./ansible/deploy.sh`
+
+
+Cuando todo el proceso termine (le toma varios minutos ejecutar todo) nos mostrará en la terminal un mensaje como este:
+
+```
+TASK [deploy_app: URL Generada para acceder a la app balanceada] *************
+ok: [kubemaster-manand.westeurope.cloudapp.azure.com] => {
+   "msg": [
+      "http://kubemaster-manand.westeurope.cloudapp.azure.com:30658"
+   ]
+}
+```
+
+Ya estaría desplegada la aplicación!!
