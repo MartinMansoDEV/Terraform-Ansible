@@ -6,7 +6,6 @@
     state: directory
 
 - name: Crear directorio para contener la aplicacion en nfs
-  hosts: nfs
   file:
     path: "{{ nfs_path_app }}"
     state: directory
