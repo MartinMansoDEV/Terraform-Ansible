@@ -28,7 +28,7 @@
   replace:
     path: ./deployment/influxdb-app.yaml
     regexp: '<dnshere>'
-    replace: "{{ hostvars[groups['nfs'][0]].ansible_host }}"
+    replace: "{{ hostvars[groups['master'][0]].ansible_host }}"
 
 - name: Desplegar firchero yaml de la app
   shell: kubectl apply -f ./deployment/influxdb-app.yaml
@@ -47,4 +47,4 @@
 - name: URL Generada para acceder al la app balanceada
   debug:
     msg:
-      - "http://{{ hostvars[groups['nfs'][0]].ansible_host }}:{{ haproxy_port.stdout | regex_search('(?<=80:).*(?=/TCP,443)') }}"
+      - "http://{{ hostvars[groups['master'][0]].ansible_host }}:{{ haproxy_port.stdout | regex_search('(?<=80:).*(?=/TCP,443)') }}"

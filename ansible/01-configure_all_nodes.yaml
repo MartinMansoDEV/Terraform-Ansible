@@ -1,7 +1,9 @@
 ---
 
 - name: Configurando todos los nodos
-  hosts: all
+  hosts:
+    - master
+    - workers
   vars_files:
     - "./env_vars.yaml"
   become: yes

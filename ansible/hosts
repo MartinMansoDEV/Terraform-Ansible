@@ -11,4 +11,4 @@ kubenode1-manand.westeurope.cloudapp.azure.com private_ip=10.0.1.11 ansible_host
 kubenode2-manand.westeurope.cloudapp.azure.com private_ip=10.0.1.12 ansible_host=kubenode2-manand.westeurope.cloudapp.azure.com
 
 [nfs]
-kubemaster-manand.westeurope.cloudapp.azure.com private_ip=10.0.1.10 ansible_host=kubemaster-manand.westeurope.cloudapp.azure.com
+kubenfs-manand.westeurope.cloudapp.azure.com private_ip=10.0.1.13 ansible_host=kubenfs-manand.westeurope.cloudapp.azure.com
